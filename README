@@ -1,1 +1,9 @@
-usage: gota <input> <output>
+usage:
+
+  gota <input> <output>
+
+
+
+installing:
+
+  go install github.com/MohamedDataStruct/gota/cmd/gota
