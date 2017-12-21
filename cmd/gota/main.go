@@ -88,7 +88,7 @@ func main() {
 	contents, err := marshaler.Marshal(storage)
 
 	if err != nil {
-		fmt.Errorf("Error: unable to encode %s to %s: %v", extIn, extOut, err)
+		fmt.Printf("Error: unable to encode %s to %s: %v", extIn, extOut, err)
 		os.Exit(2)
 	}
 
