@@ -1,12 +1,3 @@
 Gota command is a cli tool that let's you easily convert any one data format into another. YAML to JSON? JSON to C structs? No problem.
 
-
-usage:
-
-  gota <input> <output>
-
-
-
-installing:
-
-  go install github.com/MohamedDataStruct/gota/cmd/gota
+Installing by running `go install github.com/MohamedDataStruct/gota/cmd/gota` or cloning repo and running `dep ensure` to install dependencies.

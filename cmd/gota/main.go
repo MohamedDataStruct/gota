@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 // This is how we're able to read and write to different formats. The shared
@@ -31,6 +33,7 @@ func ext(file string) string {
 func init() {
 	handlers = map[string]handler{
 		"json": handler{json.Unmarshal, json.Marshal},
+		"yaml": handler{yaml.Unmarshal, yaml.Marshal},
 	}
 }
 
