@@ -1,4 +1,4 @@
-The gota command is a cli tool that let's you easily convert any one data format into another. YAML to JSON? JSON to C structs? No problem.
+Gota command is a cli tool that let's you easily convert any one data format into another. YAML to JSON? JSON to C structs? No problem.
 
 
 usage:
