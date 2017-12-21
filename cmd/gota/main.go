@@ -36,16 +36,23 @@ func main() {
 	fileIn, fileOut := os.Args[1], os.Args[2]
 	extIn, extOut := ext(fileIn), ext(fileOut)
 
-	unmarshaler, validIn := handlers[extIn]
-	marshaler, validOut := handlers[extOut]
+	fmt.Printf("Converting %s file %s into %s and saving it to %s.\n",
+		extIn, fileIn, extOut, fileOut)
+
+	if extIn == "" {
+		fmt.Println("Error: missing extension on input file")
+	}
+
+	if extOut == "" {
+		fmt.Println("Error: missing extension on output file")
+	}
 
 	if extIn == "" || extOut == "" {
-		fmt.Println("Error: missing extension")
 		os.Exit(2)
 	}
 
-	fmt.Printf("Converting %s file %s into %s and saving it to %s.\n",
-		extIn, fileIn, extOut, fileOut)
+	unmarshaler, validIn := handlers[extIn]
+	marshaler, validOut := handlers[extOut]
 
 	if !validIn {
 		fmt.Printf("Error: invalid input format: %s\n", extIn)
