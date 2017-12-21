@@ -8,10 +8,17 @@ import (
 	"strings"
 )
 
+// This is how we're able to read and write to different formats. The shared
+// and standard format is Go's `interface{}` which is standard in Go's
+// encoding packages.
 type handler struct {
 	Unmarshal func([]byte, interface{}) error
 	Marshal   func(interface{}) ([]byte, error)
 }
+
+var (
+	handlers map[string]handler
+)
 
 func usage() {
 	fmt.Println("gota <input> <output>")
@@ -21,17 +28,17 @@ func ext(file string) string {
 	return strings.TrimPrefix(filepath.Ext(file), ".")
 }
 
+func init() {
+	handlers = map[string]handler{
+		"json": handler{json.Unmarshal, json.Marshal},
+	}
+}
+
 func main() {
 	if len(os.Args) < 3 {
 		usage()
 		os.Exit(2)
 	}
-
-	handlers := map[string]handler{
-		"json": handler{json.Unmarshal, json.Marshal},
-	}
-
-	var storage map[string]interface{}
 
 	fileIn, fileOut := os.Args[1], os.Args[2]
 	extIn, extOut := ext(fileIn), ext(fileOut)
@@ -67,6 +74,7 @@ func main() {
 	}
 
 	// TODO read from the real file
+	var storage map[string]interface{}
 	err := unmarshaler.Unmarshal([]byte(`{"hi": true}`), &storage)
 
 	if err != nil {
