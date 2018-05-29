@@ -43,14 +43,6 @@ func check(e error) {
 	}
 }
 
-func isError(err error) bool {
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	return (err != nil)
-}
-
 func main() {
 	if len(os.Args) < 3 {
 		usage()
