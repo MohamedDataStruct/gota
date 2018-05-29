@@ -79,11 +79,11 @@ func main() {
 	marshaler, validOut := handlers[extOut]
 
 	if !validIn {
-		fmt.Println(fmt.Printf("Error: invalid input format: %s\n", extIn))
+		fmt.Printf("Error: invalid input format: %s\n", extIn)
 	}
 
 	if !validOut {
-		fmt.Println(fmt.Printf("Error: invalid output format: %s\n", extOut))
+		fmt.Printf("Error: invalid output format: %s\n", extOut)
 	}
 
 	if !validIn || !validOut {
