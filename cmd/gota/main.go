@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
 	"gopkg.in/yaml.v2"
+	"io/ioutil"
 )
 
 // This is how we're able to read and write to different formats. The shared
@@ -35,6 +35,20 @@ func init() {
 		"json": handler{json.Unmarshal, json.Marshal},
 		"yaml": handler{yaml.Unmarshal, yaml.Marshal},
 	}
+}
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
+func isError(err error) bool {
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	return (err != nil)
 }
 
 func main() {
@@ -65,33 +79,36 @@ func main() {
 	marshaler, validOut := handlers[extOut]
 
 	if !validIn {
-		fmt.Printf("Error: invalid input format: %s\n", extIn)
+		fmt.Println(fmt.Printf("Error: invalid input format: %s\n", extIn))
 	}
 
 	if !validOut {
-		fmt.Printf("Error: invalid output format: %s\n", extOut)
+		fmt.Println(fmt.Printf("Error: invalid output format: %s\n", extOut))
 	}
 
 	if !validIn || !validOut {
 		os.Exit(2)
 	}
 
-	// TODO read from the real file
+	file, error := ioutil.ReadFile(fileIn)
+	check(error)
 	var storage map[string]interface{}
-	err := unmarshaler.Unmarshal([]byte(`{"hi": true}`), &storage)
+	err := unmarshaler.Unmarshal([]byte(string(file)), &storage)
 
 	if err != nil {
-		fmt.Errorf("Error: unable to decode %s file %s: %v", extIn, fileIn, err)
+		fmt.Println(fmt.Errorf("Error: unable to decode %s file %s: %v", extIn, fileIn, err))
 		os.Exit(2)
 	}
-
 	contents, err := marshaler.Marshal(storage)
 
 	if err != nil {
 		fmt.Printf("Error: unable to encode %s to %s: %v", extIn, extOut, err)
 		os.Exit(2)
 	}
+	
+	
+	writeErr := ioutil.WriteFile(fileOut, contents, 0644)
+	check(writeErr)
 
-	// TODO write to real file
 	fmt.Println(string(contents))
 }
