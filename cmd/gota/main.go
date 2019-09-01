@@ -97,8 +97,7 @@ func main() {
 		fmt.Printf("Error: unable to encode %s to %s: %v", extIn, extOut, err)
 		os.Exit(2)
 	}
-	
-	
+
 	writeErr := ioutil.WriteFile(fileOut, contents, 0644)
 	check(writeErr)
 
